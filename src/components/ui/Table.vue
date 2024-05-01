@@ -1,5 +1,5 @@
 <template>
-  <table class="w-full border-collapse">
+  <table class="w-full border-collapse -z-40">
     <thead v-if="items.length > 0 && !isLoading">
       <tr class="h-[72px] w-full">
         <th v-for="field in fields" :key="field.key"
@@ -68,7 +68,6 @@ const displayedFieldKeys = computed(() => {
 table {
   width: 100%;
   table-layout: fixed;
-  border-collapse: collapse;
 }
 
 th,

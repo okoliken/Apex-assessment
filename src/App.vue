@@ -71,7 +71,7 @@ const formatDates = (date: string) => {
       </div>
 
       <Card>
-        <div class="px-6">
+        <div class="px-6 relative z-50">
           <Filter @click="showFilterOptions = !showFilterOptions" />
           <FilterOptions v-if="showFilterOptions" />
         </div>
@@ -108,7 +108,7 @@ const formatDates = (date: string) => {
             </template>
             <template #cell(status)="{ value, item }">
               <Chip :status="value as Status" />
-              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-keep">
+              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-keep -z-50">
                 Last Login:
                 {{ formatDates(String(item.login_date)) }}
               </p>
