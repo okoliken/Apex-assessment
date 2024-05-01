@@ -98,7 +98,7 @@ const formatDates = (date: string) => {
             </template>
             <template #cell(payment_status)="{ value, item }">
               <Chip :status="value as Status" />
-              <p class="text-[#383A47] font-medium pt-2 text-[16px]">
+              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-normal">
                 {{ useUtils().checkPaymentStatus(value as string) }}
                 {{
                   useUtils().checkPaymentStatus(value as string) === 'Paid on:'
@@ -109,7 +109,7 @@ const formatDates = (date: string) => {
             </template>
             <template #cell(status)="{ value, item }">
               <Chip :status="value as Status" />
-              <p class="text-[#383A47] font-medium pt-2 text-[16px]">
+              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-normal">
                 Last Login:
                 {{ formatDates(String(item.login_date)) }}
               </p>
