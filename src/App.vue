@@ -80,7 +80,6 @@ const formatDates = (date: string) => {
           <Table :items="filteredTransactions" :fields="fields">
             <template #cell(name)="{ item }">
               <div class="flex gap-x-8">
-                <!-- checked -->
                 <div
                   :class="[
                     !useDataStore().isSelected(item.id) ? 'border border-[#CBD5E0]' : 'border-none'
@@ -90,7 +89,7 @@ const formatDates = (date: string) => {
                 >
                   <Checked class="w-[20px] h-[20px]" v-if="useDataStore().isSelected(item.id)" />
                 </div>
-                <div>
+                <div class="flex items-start justify-start flex-col">
                   <p class="font-semibold text-[#111827]">{{ item.name }}</p>
                   <p class="text-[#88888A]">{{ item.email }}</p>
                 </div>
@@ -98,7 +97,7 @@ const formatDates = (date: string) => {
             </template>
             <template #cell(payment_status)="{ value, item }">
               <Chip :status="value as Status" />
-              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-normal">
+              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-keep">
                 {{ useUtils().checkPaymentStatus(value as string) }}
                 {{
                   useUtils().checkPaymentStatus(value as string) === 'Paid on:'
@@ -109,7 +108,7 @@ const formatDates = (date: string) => {
             </template>
             <template #cell(status)="{ value, item }">
               <Chip :status="value as Status" />
-              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-normal">
+              <p class="text-[#383A47] font-medium pt-2 text-[16px] break-keep">
                 Last Login:
                 {{ formatDates(String(item.login_date)) }}
               </p>

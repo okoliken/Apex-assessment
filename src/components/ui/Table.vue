@@ -78,8 +78,21 @@ td {
 
 th:nth-child(1),
 td:nth-child(1) {
+  width: 37%;
+}
+th:nth-child(2),
+td:nth-child(2) {
   width: 25%;
 }
+th:nth-child(3),
+td:nth-child(3) {
+  width: 25%;
+}
+th:nth-child(4),
+td:nth-child(4) {
+  width: 15%;
+}
+
 th:nth-child(5),
 td:nth-child(5) {
   width: 18%;

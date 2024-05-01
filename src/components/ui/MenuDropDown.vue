@@ -37,7 +37,7 @@
   position: absolute;
   background-color: white;
   border-radius: 5px;
-  z-index: 1000;
+  z-index: 99999;
   margin-left: -127px;
   top: 64px;
   /* height: 107.31px; */
