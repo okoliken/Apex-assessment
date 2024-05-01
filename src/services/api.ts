@@ -24,7 +24,7 @@ export const payDebts = async (ids: number[]) => {
         });
         if (response.data) {
             toast.success('All transaction debts have been paid')
-            await useBaseApiCall().refetchTransactions({ page: 1,  status: 'all' })
+            await useBaseApiCall().refetchTransactions(currentPage.value)
         }
     } catch (error) {
         toast.error('An error occured');
