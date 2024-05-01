@@ -29,7 +29,7 @@ export const useBaseApiCall = () => {
         isPayingUp.value = false
     }
 
-    const refetchTransactions = async (page_no:number, status:string = 'all', per_page:string = 20) => {
+    const refetchTransactions = async (page_no:number, status:string = 'all', per_page:number = 20) => {
         isLoading.value = true
         const data = await getAllTransactions({ per_page, status, page: page_no })
         isLoading.value = false

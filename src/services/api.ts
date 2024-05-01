@@ -6,7 +6,7 @@ import { storeToRefs } from "pinia";
 import { toast } from 'vue-sonner'
 
 export const getAllTransactions = async (filters: Filters): Promise<Transaction[]> => {
-    const { total_items, currentPage } = storeToRefs(useDataStore())
+    const { total_items } = storeToRefs(useDataStore())
     try {
         const response = await axiosInstance.get<ApiResponse>(`/transactions?page=${filters.page}&per_page=${filters.per_page}&status=${filters.status}`);
         total_items.value = response.data.total as number
