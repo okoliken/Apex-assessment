@@ -15,6 +15,7 @@ import {
   MenuDropDown
 } from '@/components/index'
 
+import { Toaster } from 'vue-sonner'
 import { type Status } from '@/utils/types'
 import { useBaseApiCall } from './composables/useBaseApiCall'
 import { useDataStore } from './stores/dataStore'
@@ -45,12 +46,12 @@ const toggleDropdown = (id: number) => {
 }
 
 const canPayDues = computed(() => {
-  return useDataStore().$state.selectedTransactionIds.length > 0
+  return useDataStore().$state.selectedTransactionIds.length > 0 || !isPayingUp
     ? 'cursor-pointer'
     : 'cursor-not-allowed bg-opacity-30 hover:bg-greenDark/30'
 })
 
-const { filteredTransactions, refetchTransactions } = useBaseApiCall()
+const { filteredTransactions, refetchTransactions, isPayingUp, handlePayment } = useBaseApiCall()
 useUtils().useClickOutside(elementRef, () => {
   toggleDropdown(itemId.value)
 })
@@ -67,12 +68,12 @@ const formatDates = (date: string) => {
     <div class="container max-w-full mx-auto my-12 px-16">
       <div class="flex items-center justify-between">
         <TabWrapper />
-        <Button :class="[canPayDues]" class="w-full max-w-[254px] h-[56px]" text="Pay Dues" />
+        <Button @click="canPayDues ? handlePayment() : null" :class="[canPayDues]" class="w-full max-w-[254px] h-[56px]" :text="isPayingUp ? 'Paying dues...' : 'Pay Dues'" />
       </div>
 
       <Card>
-        <div class="px-6 relative z-50">
-          <Filter @click="showFilterOptions = !showFilterOptions" />
+        <div class="px-6 relative z-50 w-auto">
+          <Filter @open="showFilterOptions = !showFilterOptions" />
           <FilterOptions v-if="showFilterOptions" />
         </div>
 
@@ -85,7 +86,7 @@ const formatDates = (date: string) => {
                     !useDataStore().isSelected(item.id) ? 'border border-[#CBD5E0]' : 'border-none'
                   ]"
                   class="w-[20px] h-[20px] border border-[#CBD5E0] rounded-full mt-1 cursor-pointer flex items-center justify-center"
-                  @click="useDataStore().toggleTransactionSelection(item.id)"
+                  @click="useDataStore().toggleTransactionSelection(item.id, item.payment_status as string)"
                 >
                   <Checked class="w-[20px] h-[20px]" v-if="useDataStore().isSelected(item.id)" />
                 </div>
@@ -134,7 +135,7 @@ const formatDates = (date: string) => {
                 enter-active-class="animate__animated animate__rotateInDownRight animate__faster"
                 leave-active-class="animate__animated animate__rotateOutUpRight animate__faster"
               >
-                <MenuDropDown ref="elementRef" v-if="showDropDowns.get(item.id)" />
+                <MenuDropDown class="z-50" ref="elementRef" v-if="showDropDowns.get(item.id)" />
               </Transition>
             </template>
           </Table>
@@ -156,5 +157,6 @@ const formatDates = (date: string) => {
         </div>
       </Card>
     </div>
+    <Toaster richColors  position="top-right" />
   </div>
 </template>

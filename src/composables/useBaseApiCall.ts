@@ -1,12 +1,12 @@
 import { onMounted } from "vue";
 import { useDataStore } from "@/stores/dataStore";
-import { getAllTransactions } from '@/services/api'
+import { getAllTransactions, payDebts } from '@/services/api'
 import { storeToRefs } from "pinia";
 import type { Transaction } from "@/utils/types";
 
 
 export const useBaseApiCall = () => {
-    const { currentPage, per_page, transactions, isLoading, filteredTransactions } = storeToRefs(useDataStore())
+    const { currentPage, per_page, transactions, isLoading, filteredTransactions, selectedTransactionIds, isPayingUp } = storeToRefs(useDataStore())
 
 
     const iterateData = (data: Transaction[]) => {
@@ -22,9 +22,16 @@ export const useBaseApiCall = () => {
             }
         })
     }
-    const refetchTransactions = async (page_no:number, status:string = 'all') => {
+
+    const handlePayment = async () => {
+        isPayingUp.value = true
+        await payDebts(selectedTransactionIds.value)
+        isPayingUp.value = false
+    }
+
+    const refetchTransactions = async (page_no:number, status:string = 'all', per_page:string = 20) => {
         isLoading.value = true
-        const data = await getAllTransactions({ per_page: per_page.value, status, page: page_no })
+        const data = await getAllTransactions({ per_page, status, page: page_no })
         isLoading.value = false
         iterateData(data)
     }
@@ -42,6 +49,8 @@ export const useBaseApiCall = () => {
 
     return {
         filteredTransactions,
-        refetchTransactions
+        refetchTransactions,
+        handlePayment,
+        isPayingUp
     }
 }

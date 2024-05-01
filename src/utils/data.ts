@@ -9,7 +9,7 @@ export const tabList: TabList[] = [
   },
   {
     title: 'Paid',
-    value: 'paid',
+    value: 'Paid',
     id: useUtils().autoGenId()
   },
   {
@@ -19,7 +19,7 @@ export const tabList: TabList[] = [
   },
   {
     title: 'Overdue',
-    value: 'overdue',
+    value: 'Overdue',
     id: useUtils().autoGenId()
   }
 ]
