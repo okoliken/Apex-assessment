@@ -40,7 +40,6 @@
   z-index: 10000;
   margin-left: -127px;
   top: 64px;
-  /* height: 107.31px; */
   box-shadow: 0px 5px 15px rgba(0, 0, 0, 0.2);
   border-radius: 6px;
   width: 154px;

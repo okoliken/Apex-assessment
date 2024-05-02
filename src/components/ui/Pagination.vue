@@ -4,7 +4,6 @@
             class="p-2 text-gray-500 disabled:text-gray-300 h-[50px] w-[50px] rounded-full hover:bg-gray-100 flex items-center justify-center">
             <DropDown class="transform rotate-90" />
         </button>
-
         <template v-for="page in pagesToShow">
             <span v-if="page === '...'" :key="page + Math.random()" class="p-2 text-[#A0AEC0]">
                 {{ page }}
@@ -13,8 +12,6 @@
                 {{ page }}
             </button>
         </template>
-        
-
         <button :disabled="currentPage >= totalPages" @click="setCurrentPage(currentPage + 1)"
             class="p-2 text-[#A0AEC0] disabled:text-[#A0AEC0]/70 h-[50px] w-[50px] rounded-full hover:bg-gray-100 flex items-center justify-center">
             <DropDown class="transform -rotate-90" />

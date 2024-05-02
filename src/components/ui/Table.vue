@@ -15,7 +15,6 @@
           <slot :name="`cell(${key})`" :value="item[key]" :item="item">
             {{ item[key] }}
           </slot>
-          <!-- Conditional Rendering for Dropdown Slot -->
           <template v-if="index === displayedFieldKeys.length - 1">
               <div class="relative">
                 <slot name="dropdown" :item="item"></slot>
