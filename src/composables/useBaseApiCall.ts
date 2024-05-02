@@ -6,7 +6,7 @@ import type { Transaction } from "@/utils/types";
 
 
 export const useBaseApiCall = () => {
-    const { currentPage, per_page, transactions, isLoading, filteredTransactions, selectedTransactionIds, isPayingUp } = storeToRefs(useDataStore())
+    const { currentPage, per_page, transactions, isLoading, filteredTransactions, selectedTransactionIds, isPayingUp,selectedStatus  } = storeToRefs(useDataStore())
 
 
     const iterateData = (data: Transaction[]) => {
@@ -27,6 +27,12 @@ export const useBaseApiCall = () => {
         isPayingUp.value = true
         await payDebts(selectedTransactionIds.value)
         isPayingUp.value = false
+    }
+
+    const setItemsPerPage = async (page: number) => {
+        per_page.value = page
+
+       await refetchTransactions(currentPage.value,selectedStatus.value, page )
     }
 
     const refetchTransactions = async (page_no:number, status:string = 'all', per_page:number = 20) => {
@@ -51,6 +57,7 @@ export const useBaseApiCall = () => {
         filteredTransactions,
         refetchTransactions,
         handlePayment,
-        isPayingUp
+        isPayingUp,
+        setItemsPerPage
     }
 }

@@ -20,6 +20,9 @@ export const useUtils = () => {
     }
   }
   
+  const formatDates = (date: string) => {
+    return useUtils().useDateFormat(date, 'DD MMM, YYYY').value || null
+  }
 
   return {
     useClickOutside: onClickOutside,
@@ -27,6 +30,7 @@ export const useUtils = () => {
     useDebounceFn,
     elementRef,
     autoGenId,
-    checkPaymentStatus
+    checkPaymentStatus,
+    formatDates
   }
 }

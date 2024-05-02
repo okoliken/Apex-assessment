@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '@/stores/dataStore'
 import { storeToRefs } from 'pinia'
-const { selectedSelectStatus, selectedStatus, selectedUserStatus ,userStatus, paymentStatus, amount, name } =
+const { selectedSelectStatus, selectedUserStatus ,userStatus, paymentStatus, amount, name } =
   storeToRefs(useDataStore())
 import { Input, Select } from '@/components/index'
 </script>
@@ -14,7 +14,7 @@ import { Input, Select } from '@/components/index'
     </div>
     <div class="flex items-start flex-col">
       <label class="text-[#111827] font-bold ml-3" for="amount">Amount</label>
-      <Input v-model="amount" id="amount" placeholder="e.g $400" />
+      <Input v-model="amount" id="amount" placeholder="e.g 400" />
     </div>
     <div class="flex items-start flex-col transform translate-x-2">
       <label class="text-[#111827] font-bold ml-3" for="userStatus">User’s Status</label>

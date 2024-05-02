@@ -12,7 +12,8 @@ import {
   Chip,
   Checked,
   Menu,
-  MenuDropDown
+  MenuDropDown,
+  DropDown
 } from '@/components/index'
 
 import { Toaster } from 'vue-sonner'
@@ -29,7 +30,7 @@ const fields = ref([
   { key: 'action', label: 'Action' }
 ])
 const showFilterOptions = ref(false)
-const { elementRef } = useUtils()
+const { elementRef, formatDates } = useUtils()
 
 const updateCurrentPage = (newPage: number) => {
   useDataStore().$state.currentPage = newPage
@@ -37,7 +38,9 @@ const updateCurrentPage = (newPage: number) => {
 }
 
 const showDropDowns = ref(new Map<number, boolean>())
+const showPerPageMenu = ref(false)
 const itemId = ref(0)
+const perPageRef = ref<HTMLElement | null>(null)
 const toggleDropdown = (id: number) => {
   itemId.value = id
   const currentState = showDropDowns.value.get(id) || false
@@ -51,7 +54,8 @@ const canPayDues = computed(() => {
     : 'cursor-not-allowed bg-opacity-30 hover:bg-greenDark/30'
 })
 
-const { filteredTransactions, refetchTransactions, isPayingUp, handlePayment } = useBaseApiCall()
+const { filteredTransactions, refetchTransactions, isPayingUp, handlePayment, setItemsPerPage } =
+  useBaseApiCall()
 
 const closeMenuOnClickOutside = () => {
   useUtils().useClickOutside(elementRef, () => {
@@ -59,14 +63,22 @@ const closeMenuOnClickOutside = () => {
   })
 }
 
+const closePerPageMenu = (page_number?: number) => {
+  if (page_number) {
+    setItemsPerPage(page_number)
+    showPerPageMenu.value = false
+  } else {
+    useUtils().useClickOutside(perPageRef, () => {
+      showPerPageMenu.value = false
+    })
+  }
+}
+closePerPageMenu()
 closeMenuOnClickOutside()
+
 
 const closeMenu = () => {
   showDropDowns.value.delete(itemId.value)
-}
-
-const formatDates = (date: string) => {
-  return useUtils().useDateFormat(date, 'DD MMM, YYYY').value || null
 }
 </script>
 
@@ -159,8 +171,35 @@ const formatDates = (date: string) => {
           v-if="useDataStore().$state.transactions.length > 0"
           class="flex items-center justify-between p-7 my-4"
         >
-          <div>
+          <div class="flex items-center gap-x-3 relative">
             <p class="font-normal text-[#718096]">Show result:</p>
+            <div
+              @click="showPerPageMenu = !showPerPageMenu"
+              class="w-[68px] h-[38px] border border-[#EEEFF2] cursor-pointer py-[8px] px-[12px] rounded-[8px] flex items-center justify-between"
+            >
+              <p class="text-[#718096]]">{{ useDataStore().$state.per_page }}</p>
+              <DropDown />
+            </div>
+            <ul
+              v-if="showPerPageMenu"
+              ref="perPageRef"
+              class="absolute right-0 bg-white top-12 w-[68px] border border-[#EEEFF2] cursor-pointer py-[8px] rounded-[8px]"
+            >
+              <li
+                @click="closePerPageMenu(10)"
+                :class="[useDataStore().$state.per_page === 10 ? 'bg-gray-100' : null]"
+                class="hover:bg-gray-100 px-[12px] text-[#718096]"
+              >
+                10
+              </li>
+              <li
+                @click="closePerPageMenu(20)"
+                :class="[useDataStore().$state.per_page === 20 ? 'bg-gray-100' : null]"
+                class="hover:bg-gray-100 px-[12px] text-[#718096]"
+              >
+                20
+              </li>
+            </ul>
           </div>
           <Pagination
             :totalItems="useDataStore().$state.total_items"

@@ -24,7 +24,7 @@
         </td>
       </tr>
     </tbody>
-    <tbody v-else-if="items.length <= 0 && isLoading">
+    <tbody v-else-if="isLoading">
       <tr>
         <td class="w-full text-center align-middle py-24" colspan="12">
           <div class="flex items-center justify-center w-full">

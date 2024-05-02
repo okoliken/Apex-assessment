@@ -12,7 +12,6 @@ export const getAllTransactions = async (filters: Filters): Promise<Transaction[
         total_items.value = response.data.total as number
         return response.data.data;
     } catch (error) {
-        console.error(error);
         throw error;
     }
 }

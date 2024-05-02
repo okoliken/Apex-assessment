@@ -14,6 +14,7 @@ import Chip from "./ui/Chip.vue";
 import Checked from '@/components/icons/Checked.vue'
 import Menu from "./icons/Menu.vue";
 import MenuDropDown from "./ui/MenuDropDown.vue";
+import DropDown from "./icons/DropDown.vue";
 
 export {
     Header,
@@ -31,5 +32,6 @@ export {
     Chip,
     Checked,
     Menu,
-    MenuDropDown
+    MenuDropDown,
+    DropDown
 }
