@@ -9,8 +9,8 @@
       </tr>
     </thead>
     <tbody v-if="items.length > 0 && !isLoading">
-      <tr style="position: relative; z-index: 1;" v-for="item in items" :key="item.id" class="h-[80px] border-t border-b border-lightGray">
-        <td style="position: relative; z-index: 1;"  v-for="(key, index) in displayedFieldKeys" :key="key"
+      <tr  v-for="item in items" :key="item.id" class="h-[80px] border-t border-b border-lightGray">
+        <td  v-for="(key, index) in displayedFieldKeys" :key="key"
             class="px-12 py-2 text-sm border-lightGray relative text-[#718096]">
           <slot :name="`cell(${key})`" :value="item[key]" :item="item">
             {{ item[key] }}
@@ -24,12 +24,20 @@
         </td>
       </tr>
     </tbody>
-    <tbody v-else>
+    <tbody v-else-if="items.length <= 0 && isLoading">
       <tr>
         <td class="w-full text-center align-middle py-24" colspan="12">
           <div class="flex items-center justify-center w-full">
             <Loader />
           </div>
+        </td>
+      </tr>
+    </tbody>
+
+    <tbody v-else>
+      <tr>
+        <td class="w-full text-center align-middle font-semibold py-24 text-gray-600" colspan="12">
+            No Data Found
         </td>
       </tr>
     </tbody>

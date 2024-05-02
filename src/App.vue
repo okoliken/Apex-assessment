@@ -52,9 +52,18 @@ const canPayDues = computed(() => {
 })
 
 const { filteredTransactions, refetchTransactions, isPayingUp, handlePayment } = useBaseApiCall()
-useUtils().useClickOutside(elementRef, () => {
-  toggleDropdown(itemId.value)
-})
+
+const closeMenuOnClickOutside = () => {
+  useUtils().useClickOutside(elementRef, () => {
+    toggleDropdown(itemId.value)
+  })
+}
+
+closeMenuOnClickOutside()
+
+const closeMenu = () => {
+  showDropDowns.value.delete(itemId.value)
+}
 
 const formatDates = (date: string) => {
   return useUtils().useDateFormat(date, 'DD MMM, YYYY').value || null
@@ -68,7 +77,12 @@ const formatDates = (date: string) => {
     <div class="container max-w-full mx-auto my-12 px-16">
       <div class="flex items-center justify-between">
         <TabWrapper />
-        <Button @click="canPayDues ? handlePayment() : null" :class="[canPayDues]" class="w-full max-w-[254px] h-[56px]" :text="isPayingUp ? 'Paying dues...' : 'Pay Dues'" />
+        <Button
+          @click="canPayDues ? handlePayment() : null"
+          :class="[canPayDues]"
+          class="w-full max-w-[254px] h-[56px]"
+          :text="isPayingUp ? 'Paying dues...' : 'Pay Dues'"
+        />
       </div>
 
       <Card>
@@ -86,7 +100,12 @@ const formatDates = (date: string) => {
                     !useDataStore().isSelected(item.id) ? 'border border-[#CBD5E0]' : 'border-none'
                   ]"
                   class="w-[20px] h-[20px] border border-[#CBD5E0] rounded-full mt-1 cursor-pointer flex items-center justify-center"
-                  @click="useDataStore().toggleTransactionSelection(item.id, item.payment_status as string)"
+                  @click="
+                    useDataStore().toggleTransactionSelection(
+                      item.id,
+                      item.payment_status as string
+                    )
+                  "
                 >
                   <Checked class="w-[20px] h-[20px]" v-if="useDataStore().isSelected(item.id)" />
                 </div>
@@ -120,22 +139,17 @@ const formatDates = (date: string) => {
             </template>
 
             <template #cell(action)="{ item }">
-              <Menu
-                @close="
-                  () =>
-                    useUtils().useClickOutside(elementRef, () => {
-                      toggleDropdown(item.id)
-                    })
-                "
-                @click="toggleDropdown(item.id)"
-                class="text-[32px]"
-              />
+              <Menu @click="toggleDropdown(item.id)" class="text-[32px]" />
               <Transition
                 name="custom-classes"
                 enter-active-class="animate__animated animate__rotateInDownRight animate__faster"
                 leave-active-class="animate__animated animate__rotateOutUpRight animate__faster"
               >
-                <MenuDropDown class="z-50" ref="elementRef" v-if="showDropDowns.get(item.id)" />
+                <MenuDropDown
+                  @close="closeMenu"
+                  ref="elementRef"
+                  v-if="showDropDowns.get(item.id)"
+                />
               </Transition>
             </template>
           </Table>
@@ -157,6 +171,6 @@ const formatDates = (date: string) => {
         </div>
       </Card>
     </div>
-    <Toaster richColors  position="top-right" />
+    <Toaster richColors position="top-right" />
   </div>
 </template>

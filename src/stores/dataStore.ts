@@ -32,7 +32,7 @@ export const useDataStore = defineStore('dataStore', () => {
 
   // GETTERS
   const filteredTransactions = computed(() => {
-    if (!name.value.trim() && !amount.value.trim() && selectedUserStatus.value === 'All' && selectedStatus.value === 'All') {
+    if (!name.value.trim() && !amount.value.trim() && selectedUserStatus.value === 'All' && selectedStatus.value === 'All' && selectedSelectStatus.value === 'All') {
       return returnALLTransactions();
     }
 
@@ -40,7 +40,7 @@ export const useDataStore = defineStore('dataStore', () => {
       const matchesName = name.value.trim() === '' || transaction.name.toLowerCase().includes(name.value.trim().toLowerCase());
       const matchesAmount = amount.value.trim() === '' || transaction.amount === Number(amount.value.trim());
       const matchesUserStatus = selectedUserStatus.value === 'All' || transaction.status.toLowerCase() === selectedUserStatus.value.trim().toLowerCase();
-      const matchesPaymentStatus = (selectedStatus.value === 'All' || selectedSelectStatus.value === 'All') || (transaction.payment_status.toLowerCase() === selectedStatus.value.toLowerCase() || transaction.status.toLowerCase() === selectedSelectStatus.value.trim().toLowerCase())
+      const matchesPaymentStatus = selectedSelectStatus.value === 'All' || determinePaymentStatus(transaction.payment_expected_at, transaction.payment_made_at).toLowerCase() === selectedSelectStatus.value.trim().toLowerCase()
       return matchesName && matchesAmount && matchesUserStatus && matchesPaymentStatus;
     });
   });
@@ -53,6 +53,9 @@ export const useDataStore = defineStore('dataStore', () => {
   }
   const setSelectedUserStatus = (status: string) => {
     selectedUserStatus.value = status
+  }
+  const setSelectStatus = (status: string) => {
+    selectedSelectStatus.value = status
   }
 
   const returnALLTransactions = () => {
@@ -85,7 +88,7 @@ export const useDataStore = defineStore('dataStore', () => {
     }
   };
 
-  const toggleTransactionSelection = (id: number, status:string) => {
+  const toggleTransactionSelection = (id: number, status: string) => {
     if (status !== 'paid') {
       const index = selectedTransactionIds.value.indexOf(id);
       if (index !== -1) {
@@ -121,6 +124,7 @@ export const useDataStore = defineStore('dataStore', () => {
     selectedTransactionIds,
     total_items,
     selectedSelectStatus,
-    isPayingUp
+    isPayingUp,
+    setSelectStatus
   }
 })

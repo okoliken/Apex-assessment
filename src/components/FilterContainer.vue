@@ -1,7 +1,7 @@
 <script setup lang="ts">
 import { useDataStore } from '@/stores/dataStore'
 import { storeToRefs } from 'pinia'
-const { selectedSelectStatus, selectedStatus, userStatus, paymentStatus, amount, name } =
+const { selectedSelectStatus, selectedStatus, selectedUserStatus ,userStatus, paymentStatus, amount, name } =
   storeToRefs(useDataStore())
 import { Input, Select } from '@/components/index'
 </script>
@@ -19,7 +19,7 @@ import { Input, Select } from '@/components/index'
     <div class="flex items-start flex-col transform translate-x-2">
       <label class="text-[#111827] font-bold ml-3" for="userStatus">User’s Status</label>
       <Select
-        :selected-option="selectedSelectStatus"
+        :selected-option="selectedUserStatus"
         @filter="useDataStore().setSelectedUserStatus"
         :options="userStatus"
         id="userStatus"
@@ -29,8 +29,8 @@ import { Input, Select } from '@/components/index'
     <div class="flex items-start flex-col transform translate-x-2 ml-4">
       <label class="text-[#111827] font-bold ml-3" for="paymentStatus">Payment Status</label>
       <Select
-        :selected-option="selectedStatus"
-        @filter="useDataStore().setSelectedStatus"
+        :selected-option="selectedSelectStatus"
+        @filter="useDataStore().setSelectStatus"
         :options="paymentStatus"
         id="paymentStatus"
         class="mt-2"

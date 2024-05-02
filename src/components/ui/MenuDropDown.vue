@@ -1,6 +1,6 @@
 <template>
   <div class="dropdown-menu">
-    <ul class="px-1 pt-2 relative">
+    <ul class="px-1 pt-2 relative !z-50">
       <li class="py-1 px-4 mb-2 hover:bg-greenSoft rounded-[4px] cursor-pointer">Edit</li>
       <li class="py-1 px-4 mb-2 hover:bg-greenSoft rounded-[4px] cursor-pointer">View Profile</li>
       <li class="text-[#D30000] border-t border-lightGray py-2 px-4">Delete</li>
@@ -37,7 +37,7 @@
   position: absolute;
   background-color: white;
   border-radius: 5px;
-  z-index: 99999;
+  z-index: 10000;
   margin-left: -127px;
   top: 64px;
   /* height: 107.31px; */
