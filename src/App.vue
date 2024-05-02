@@ -175,7 +175,7 @@ const closeMenu = () => {
             <p class="font-normal text-[#718096]">Show result:</p>
             <div
               @click="showPerPageMenu = !showPerPageMenu"
-              class="w-[68px] h-[38px] border border-[#EEEFF2] cursor-pointer py-[8px] px-[12px] rounded-[8px] flex items-center justify-between"
+              class="w-[68px] h-[38px] border border-[#EEEFF2] shadow-md cursor-pointer py-[8px] px-[12px] rounded-[8px] flex items-center justify-between"
             >
               <p class="text-[#718096]]">{{ useDataStore().$state.per_page }}</p>
               <DropDown />
